@@ -50,3 +50,5 @@ The selection between these two patterns can be guided by the following criteria
 | **Does "state" matter?** | Yes, what the code does depends heavily on its current mode. | Nope, you're just passing data through steps
 
 
+#### The Architecure i want to use is a hybrid of 2 realing more in the FSM to achive both speed in smaller files but also have the abillity to breeze throw multiple files or chuncks of a file.
+
