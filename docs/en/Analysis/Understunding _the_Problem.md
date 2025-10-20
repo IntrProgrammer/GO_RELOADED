@@ -1,6 +1,6 @@
 ## **Project Goal: Text Formatter**
 
-Our project is to build a program that acts like a "text cleaner." It will read text from a file, look for specific patterns and commands, and then apply a set of rules to format the text correctly. Think of it as an automated proofreader that follows a very specific style of rules and formats the text.
+Our project is to build a program that acts like a "text formatter." It will read text from a file, look for specific patterns and commands, and then apply a set of rules to format the text correctly. Think of it as an automated proofreader that follows a very specific style of rules and formats the text.
 
 The core of the challenge is correctly identifying and applying these editing rules. Let's break them down.
 
