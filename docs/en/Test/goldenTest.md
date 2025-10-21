@@ -1,5 +1,3 @@
-Here's your text formatted using Markdown for easier readability:
-
 ### Rule 1: Special Commands (Tags)
 The text may contain special commands in parentheses, called tags, which modify the preceding word or words.
 
@@ -76,4 +74,10 @@ A robust formatter must handle complex scenarios where rules interact.
    - **Before:** One two three (up, 5).
    - **After:** ONE TWO THREE.
 
-By following these rules, your text is now properly formatted and easier to understand. 
+
+### Multi Rule Test
+- **Test case that combines rules 1, 2, 3, and 4:**
+
+    - **Before:** It was a 111 (bin) hour wait... ' so I read a book (up) ' .
+
+    - **After:** It was an 7 hour wait... 'so I read a BOOK'.
