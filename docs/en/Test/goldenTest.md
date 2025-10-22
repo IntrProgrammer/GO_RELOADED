@@ -81,3 +81,47 @@ A robust formatter must handle complex scenarios where rules interact.
     - **Before:** It was a 111 (bin) hour wait... ' so I read a book (up) ' .
 
     - **After:** It was an 7 hour wait... 'so I read a BOOK'.
+
+### Complex Multi-Rule Scenarios
+
+**Advanced Test Cases:**
+
+1. **Hexadecimal conversion with punctuation and quotes:**
+   - **Before:** ' The result was A (hex) , which surprised everyone ' !
+   - **After:** 'The result was 10, which surprised everyone'!
+
+2. **Binary conversion with multi-word capitalization and article correction:**
+   - **Before:** It took a 1010 (bin) amazing developers (cap, 2) to finish .
+   - **After:** It took an 10 Amazing Developers to finish.
+
+3. **Nested quotes with case changes and punctuation:**
+   - **Before:** She whispered ' he said HELLO (low) to me ' , then smiled ...
+   - **After:** She whispered 'he said hello to me', then smiled...
+
+4. **Multiple conversions with grouped punctuation:**
+   - **Before:** The values were 1A (hex) and 101 (bin) respectively !!!
+   - **After:** The values were 26 and 5 respectively!!!
+
+5. **Complex article correction with case modification:**
+   - **Before:** A elephant (up) walked to a orange (cap) tree .
+   - **After:** An ELEPHANT walked to an Orange tree.
+
+6. **All rules combined in one sentence:**
+   - **Before:** ' It was a FF (hex) hour journey (up, 2) , and we saw a eagle flying overhead ' !!!
+   - **After:** 'It was an 255 HOUR JOURNEY, and we saw an eagle flying overhead'!!!
+
+7. **Sequential tag applications with punctuation:**
+   - **Before:** The binary 1111 (bin) became FIFTEEN (low) , then fifteen (up) again .
+   - **After:** The binary 15 became fifteen, then FIFTEEN again.
+
+8. **Edge case with invalid conversion and valid formatting:**
+   - **Before:** ' The code XYZ (hex) failed , but ABC (hex) worked perfectly (cap) ' .
+   - **After:** 'The code XYZ (hex) failed, but 2748 worked Perfectly'.
+
+### Ultimate Multi-Rule Test
+
+**The Complete Challenge - All Rules in One Paragraph:**
+
+- **Before:** ' Yesterday , a engineer told me that the project took 1A (hex) intensive weeks (up, 2) to complete . He said the team converted 1101 (bin) binary files and worked on a apple (low) optimization algorithm . The final result was AMAZING (cap) , and everyone was shouting HOORAY (low) !!! He whispered ' it was a honor to work on this ' , then smiled ... '
+
+- **After:** 'Yesterday, an engineer told me that the project took 26 INTENSIVE WEEKS to complete. He said the team converted 13 binary files and worked on an apple optimization algorithm. The final result was Amazing, and everyone was shouting hooray!!! He whispered 'it was an honor to work on this', then smiled...'
