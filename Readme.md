@@ -58,7 +58,8 @@ GO_RELOADED/
 ├── docs/
 │   ├── Analysis/          # Problem and architecture docs
 │   ├── tasks/             # TDD task breakdown (20 tasks)
-│   └── PLANING_TDD/       # Development planning
+│   ├── PLANING_TDD/       # Development planning
+│   └── Test/              # Testing suite (post-implementation)
 ├── COPYING.md             # GPL-3.0 License
 └── Readme.md              # This file
 ```
@@ -78,12 +79,6 @@ This project follows **Test-Driven Development (TDD)** with 20 incremental tasks
 
 📋 **[View All Tasks](docs/tasks/README.md)**
 
-### Task Template
-
-Need to add custom tasks? Use the provided template:
-
-🛠️ **[Task Template Guide](docs/tasks/task-template/README.md)**
-
 ## Quick Links
 
 | Resource | Description |
@@ -91,7 +86,7 @@ Need to add custom tasks? Use the provided template:
 | [Problem Analysis](docs/Analysis/Understunding%20_the_Problem.md) | Detailed problem breakdown |
 | [Architecture Guide](docs/Analysis/Architecture_Type.md) | FSM vs Pipeline comparison |
 | [Task List](docs/tasks/README.md) | All 20 TDD tasks |
-| [Task Templates](docs/tasks/task-template/) | Create custom tasks |
+| [Test Suite](docs/Test/) | Post-implementation testing |
 
 ## License
 
