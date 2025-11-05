@@ -28,6 +28,7 @@ package formatter
 
 import (
     "testing"
+    "reflect"
     "yourmodule/tokenizer"
 )
 
@@ -72,17 +73,17 @@ func TestApplyNumberConversion(t *testing.T) {
     }
 
     for _, tt := range tests {
-        t.Run(tt.name, func(t *testing.T) {
-            got, err := ApplyNumberConversion(tt.tokens)
-            if (err != nil) != tt.wantErr {
-                t.Errorf("ApplyNumberConversion() error = %v, wantErr %v", err, tt.wantErr)
-                return
-            }
-            if !tt.wantErr && !tokensEqual(got, tt.want) {
-                t.Errorf("ApplyNumberConversion() = %v, want %v", got, tt.want)
-            }
-        })
-    }
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := ApplyNumberConversion(tt.tokens)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ApplyNumberConversion() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !tt.wantErr && !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ApplyNumberConversion() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }
 ```
 
