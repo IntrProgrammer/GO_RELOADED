@@ -5,10 +5,7 @@ import (
 )
 
 func CleanQuoteSpacing(tokens []tokenizer.Token) []tokenizer.Token {
-	// Implementation:
-	// 1. Track quote state (inside/outside)
-	// 2. Remove whitespace immediately after opening quote
-	// 3. Remove whitespace immediately before closing quote
+
 	var result []tokenizer.Token
 	insideQuote := false
 
