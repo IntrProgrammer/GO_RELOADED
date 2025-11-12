@@ -7,14 +7,14 @@ import (
 const (
 	// Group 1: TAG - Matches commands like (up), (hex, 2)
 	TagPattern = `(\([^)]+\))`
-	// Group 2: QUOTE - Matches the single quote character
-	QuotePattern = `(')`
+	// Group 2: QUOTE - Matches single or double quote characters
+	QuotePattern = `(['"])`
 	// Group 3: PUNCTUATION - Matches any defined punctuation mark
 	PunctuationPattern = `([.,!?;:])`
 	// Group 4: WHITESPACE - Matches one or more spaces
 	WhitespacePattern = `(\s+)`
 	// Group 5: WORD - The catch-all: matches one or more non-whitespace characters
-	WordPattern = `([^\s.,!?;:()']+)`
+	WordPattern = `([^\s.,!?;:()'"]+)`
 )
 
 // The master regex combines all patterns using OR (|).
