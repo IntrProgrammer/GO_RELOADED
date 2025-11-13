@@ -12,11 +12,9 @@ func New() *Formatter {
 }
 
 func (f *Formatter) Format(input string) string {
-	tokens := tokenizer.Tokenize(input)//Pipe
-	tokens = NormalizePunctuation(tokens)//Pipe
-	tokens = CleanQuoteSpacing(tokens)//Pipe
-	tokens = processWithFSM(tokens)//FSM
-	return Render(tokens)
+	tokens := tokenizer.Tokenize(input) //Pipe
+	tokens = processWithFSM(tokens)     //FSM
+	return Render(tokens)               //Pipe
 }
 
 func processWithFSM(tokens []tokenizer.Token) []tokenizer.Token {

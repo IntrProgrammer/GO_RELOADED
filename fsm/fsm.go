@@ -101,7 +101,7 @@ func (f *FSM) handleEvaluating() {
 func (f *FSM) handleEditing() {
 	tag := f.tokens[f.position]
 
-	// Try processors for tag tokens
+	// Try processors for tokens
 	for _, proc := range f.processors {
 		if modified, handled := proc.Process(f.result, tag); handled {
 			f.result = modified
@@ -111,7 +111,7 @@ func (f *FSM) handleEditing() {
 		}
 	}
 
-	// Default: skip tag
+	// Default: skip
 	f.position++
 	f.state = StateReading
 }

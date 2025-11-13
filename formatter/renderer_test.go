@@ -64,8 +64,6 @@ func TestRoundTrip(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			tokens := tokenizer.Tokenize(tt.input)
-			tokens = NormalizePunctuation(tokens)
-			tokens = CleanQuoteSpacing(tokens)
 			got := Render(tokens)
 			if got != tt.want {
 				t.Errorf("Round-trip = %q, want %q", got, tt.want)
