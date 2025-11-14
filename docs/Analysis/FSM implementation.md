@@ -31,7 +31,7 @@ v
 - **result**: accumulated output tokens
 - **errorMsg**: non-empty when in Error state
 - **processors**: ordered list of Processor implementations
-
+- **inQuote**: Track if currently inside quotes
 
 ## Processor Contract
 ```go

@@ -50,5 +50,46 @@ The selection between these two patterns can be guided by the following criteria
 | **Does "state" matter?** | Yes, what the code does depends heavily on its current mode. | Nope, you're just passing data through steps
 
 
-#### The Architecure i want to use is a hybrid of 2 realing more in the FSM to achive both speed in smaller files but also have the abillity to breeze throw multiple files or chuncks of a file.
+#### The Architecure i want to use is a hybrid of 2 realing more in the FSM to achive both speed in smaller files but also have the abillity to handle larger files.
+
+## Why this combo?
+
+Pipeline = fast, simple prep for most work.
+FSM = handles context, exceptions, multi-token edits.
+Result = readable code + predictable output.
+
+
+## Hybrid implementation
+
+
+
+### High-Level Flow
+
+```
+Input Text
+    ↓
+[PIPELINE: Tokenization]
+    ↓
+[FSM: Tag Conversion & a to an]
+    └─→ FSM → CaseProcessor → CaseProcessor → Article Correction
+    ↓
+[PIPELINE: Rendering]
+    ↓
+Output Text
+```
+
+## High-Level Flow Explanation
+
+The hybrid architecture processes input text through distinct stages optimized for both performance and scalability. 
+
+First, a **pipeline phase** prepares the data: tokenization breaks text into manageable units, punctuation normalization standardizes spacing around punctuation marks, and quote spacing cleanup removes unnecessary whitespace inside quoted sections. 
+
+Next, an **FSM phase** handles complex tag-based transformations by splitting tokens into segments (typically by quotes) and processing each segment through a finite state machine equipped with specialized processors 
+
+ConversionProcessor (handles `hex`, `bin` conversions), CaseProcessor -(handles `up`, `low`, `cap` rules), and Article -Correction (fixes `a`/`an` usage). Each segment 
+
+can transition through states (Reading → Evaluating → Editing) as needed, enabling flexible, stateful processing. Finally, a **rendering pipeline stage** converts the processed tokens back into formatted text. This hybrid design leverages the pipeline's efficiency for linear transformations while using the FSM's state management capabilities for complex, context-dependent rules.
+
+---
+
 

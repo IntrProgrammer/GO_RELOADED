@@ -14,6 +14,7 @@ func New() *Formatter {
 func (f *Formatter) Format(input string) string {
 	tokens := tokenizer.Tokenize(input)
 	machine := fsm.New(tokens)
+	machine.AddProcessor(&fsm.PunctuationNormalization{})
 	machine.AddProcessor(&fsm.QuoteSpacingProcessor{})
 	machine.AddProcessor(&fsm.ConversionProcessor{})
 	machine.AddProcessor(&fsm.CaseProcessor{})

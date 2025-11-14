@@ -1,12 +1,10 @@
-# Task 4 — Simple Renderer
+# Task 9 — Simple Renderer
 
 ## Objective
 Convert normalized token streams back into readable text.
 
 ## Prerequisites
 - Task 1 completed (Tokenizer)
-- Task 2 completed (Punctuation Normalization)
-- Task 3 completed (Quote Spacing)
 
 ## Deliverables
 - [ ] Render function
@@ -89,8 +87,7 @@ func TestRoundTrip(t *testing.T) {
     for _, tt := range tests {
         t.Run(tt.name, func(t *testing.T) {
             tokens := tokenizer.Tokenize(tt.input)
-            tokens = NormalizePunctuation(tokens)
-            tokens = CleanQuoteSpacing(tokens)
+            tokens = processWithFSM(tokens)
             got := Render(tokens)
             if got != tt.want {
                 t.Errorf("Round-trip = %q, want %q", got, tt.want)

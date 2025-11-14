@@ -160,7 +160,42 @@ func capitalize(s string) string {
 	return string(runes)
 }
 
-// QuoteSpacingProcessor handles quote spacing cleanup (Rule 3)
+// PunctuationNormalization handles punctuation spacing
+type PunctuationNormalization struct{}
+
+func (p *PunctuationNormalization) Process(result []tokenizer.Token, currentToken tokenizer.Token) ([]tokenizer.Token, bool) {
+	if currentToken.Type == tokenizer.PUNCTUATION {
+		// Remove trailing whitespace before punctuation
+		modified := make([]tokenizer.Token, len(result))
+		copy(modified, result)
+
+		for len(modified) > 0 && modified[len(modified)-1].Type == tokenizer.WHITESPACE {
+			modified = modified[:len(modified)-1]
+		}
+
+		modified = append(modified, currentToken)
+		return modified, true
+	}
+
+	if currentToken.Type == tokenizer.WHITESPACE {
+		// Only add whitespace if last token is not punctuation or whitespace
+		if len(result) > 0 {
+			lastToken := result[len(result)-1]
+			if lastToken.Type == tokenizer.PUNCTUATION {
+				// Already have punctuation, add whitespace
+				return append(result, currentToken), true
+			}
+			if lastToken.Type == tokenizer.WHITESPACE {
+				// Skip duplicate whitespace
+				return result, true
+			}
+		}
+	}
+
+	return result, false
+}
+
+// QuoteSpacingProcessor handles quote spacing cleanup
 type QuoteSpacingProcessor struct{}
 
 func (p *QuoteSpacingProcessor) Process(result []tokenizer.Token, currentToken tokenizer.Token) ([]tokenizer.Token, bool) {

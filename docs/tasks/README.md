@@ -16,43 +16,23 @@ Each task file contains:
 
 ## Task Execution Order
 
-### Phase 1: Foundation (Tasks 0-4)
+### Phase 1: Foundation (Tasks 0-1)
 - [x] [Task 0: Project Bootstrap](task-00-project-bootstrap.md) - Initialize Go project
 - [x] [Task 1: Tokenizer](task-01-tokenizer.md) - Convert text to tokens
-- [x] [Task 2: Punctuation Normalization](task-02-punctuation-normalization.md) - Fix punctuation spacing
-- [x] [Task 3: Quote Spacing](task-03-quote-spacing.md) - Clean quote boundaries
-- [x] [Task 4: Renderer](task-04-renderer.md) - Convert tokens back to text
 
-### Phase 2: Tag Processing (Tasks 5-9)
-- [x] [Task 5: Tag Parser](task-05-tag-parser.md) - Parse command tags
-- [x] [Task 6: Number Conversion](task-06-number-conversion.md) - Hex/bin to decimal
-- [x] [Task 7: Single-Word Case Tags](task-07-case-single.md) - up/low/cap for one word
-- [x] [Task 8: Multi-Word Case Tags](task-08-case-multi.md) - Case changes for multiple words
-- [x] [Task 9: Tag Orchestration](task-09-tag-orchestration.md) - Coordinate tag applications
+### Phase 2: FSM Core (Tasks 2-6)
+- [x] [Task 2: FSM Core Structure](task-02-fsm-core.md) - State machine with quote tracking
+- [x] [Task 3: Conversion Processor](task-03-conversion-processor.md) - Hex/bin with quote boundaries
+- [x] [Task 4: Case Processor](task-04-case-processor.md) - up/low/cap with quote boundaries
+- [x] [Task 5: Article Correction](task-05-article-correction.md) - a/an integrated into FSM
+- [x] [Task 6: Formatter Integration](task-06-formatter-integration.md) - Single-pass FSM integration
 
-### Phase 3: Advanced Rules (Tasks 10-11)
-- [x] [Task 10: A/An Rule](task-10-a-an-rule.md) - Grammatical article correction
-- [x] [Task 11: Rules Inside Quotes](task-11-rules-in-quotes.md) - Apply rules within quotes
+### Phase 3: Pipeline Stages (Task 7)
+- [x] [Task 7: Renderer](task-12-renderer.md) - Token to text conversion
 
-### Phase 4: Architecture (Tasks 12-13)
-- [x] [Task 12: FSM Core](task-12-fsm-core.md) - Finite state machine controller
-- [x] [Task 13: Chunked Pipeline](task-13-chunked-pipeline.md) - Large file handling
+### Phase 4: Production (Task 8)
+- [x] [Task 8: File I/O and CLI](task-14-file-io-cli.md) - Command-line interface
 
-### Phase 5: Production (Tasks 14-16)
-- [x] [Task 14: File I/O and CLI](task-14-file-io-cli.md) - Command-line interface
-- [x] [Task 15: Error Handling](task-15-error-handling.md) - Robust error recovery
-- [x] [Task 16: Logging](task-16-logging.md) - Diagnostics and monitoring
-
-### Phase 6: Quality (Tasks 17-19)
-- [x] [Task 17: Property Tests](task-17-property-tests.md) - Edge case testing
-- [x] [Task 18: CI Integration](task-18-ci-integration.md) - Continuous testing
-- [x] [Task 19: Documentation](task-19-documentation.md) - Final polish
-
-### Optional
-- [x] [Task A: AI Test Generation](task-A-ai-test-generation.md) - Automated test cases
-
-### Task Templates
-- [Task Template Folder](task-template/) - Templates for creating custom tasks
 
 ## Agent Execution Instructions
 
@@ -73,14 +53,25 @@ go fmt ./...
 go test -race ./...
 ```
 
-### Project Structure Convention:
+### Project Structure:
 ```
-go-reloaded/
-├── formatter/          # Core formatting logic
-├── tokenizer/          # Text tokenization
-├── fsm/               # State machine (Task 12+)
-├── cmd/               # CLI application (Task 14+)
-└── testdata/          # Test fixtures (Task 18+)
+GO_RELOADED/
+├── cmd/go-reloaded/     # Entry point (main.go)
+├── docs/                # Project documentation
+│   ├── Analysis/        # Design docs, problem description
+│   └── tasks/           # Task files for implementation
+├── formatter/           # Pipeline orchestration
+│   ├── formatter.go     # Main Format() + quote segmentation
+│   ├── punctuation.go   # Punctuation normalization
+│   ├── quote.go         # Quote spacing cleanup
+│   └── renderer.go      # Token to string conversion
+├── fsm/                 # Finite state machine
+│   ├── state.go         # State definitions
+│   ├── fsm.go           # FSM core logic
+│   └── processors.go    # Transformation processors
+└── tokenizer/           # Tokenization
+    ├── token.go         # Token type definitions
+    └── tokenizer.go     # Tokenize function
 ```
 
 ## Notes for Coding Agents

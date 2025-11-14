@@ -5,7 +5,9 @@
 
 package fsm
 
-import "GO_RELOADED/tokenizer"
+import (
+	"GO_RELOADED/tokenizer"
+)
 
 type Processor interface {
 	Process(result []tokenizer.Token, currentToken tokenizer.Token) (modified []tokenizer.Token, handled bool)
@@ -16,7 +18,6 @@ type FSM struct {
 	tokens     []tokenizer.Token // Input tokens to process
 	position   int               // Current position in the tokens slice
 	result     []tokenizer.Token // Processed tokens output
-	errorMsg   string            // Error message if FSM enters error state
 	processors []Processor       // List of processors to handle different token types
 	inQuote    bool              // Track if currently inside quotes
 }
@@ -40,16 +41,12 @@ func (f *FSM) CurrentState() State {
 	return f.state
 }
 
-func (f *FSM) Error() string {
-	return f.errorMsg
-}
-
 func (f *FSM) Result() []tokenizer.Token {
 	return f.result
 }
 
 func (f *FSM) Run() {
-	for f.state != StateDone && f.state != StateError {
+	for f.state != StateDone {
 		f.step()
 	}
 	// Post-process: Apply article correction
@@ -60,11 +57,7 @@ func (f *FSM) step() {
 	switch f.state {
 	case StateReading:
 		f.handleReading()
-	case StateEvaluating:
-		f.handleEvaluating()
-	case StateEditing:
-		f.handleEditing()
-	case StateError:
+	case StateDone:
 		return
 	}
 }
@@ -74,76 +67,4 @@ func (f *FSM) handleReading() {
 		f.state = StateDone
 		return
 	}
-
-	f.state = StateEvaluating
-}
-
-func (f *FSM) handleEvaluating() {
-	token := f.tokens[f.position]
-
-	// Track quote boundaries and handle spacing
-	if token.Type == tokenizer.QUOTE {
-		wasInQuote := f.inQuote
-		f.inQuote = !f.inQuote
-		
-		// Use QuoteSpacingProcessor to handle quote spacing
-		for _, proc := range f.processors {
-			if modified, handled := proc.Process(f.result, token); handled {
-				f.result = modified
-				f.position++
-				
-				// Skip whitespace after opening quote
-				if !wasInQuote && f.position < len(f.tokens) && f.tokens[f.position].Type == tokenizer.WHITESPACE {
-					f.position++
-				}
-				
-				f.state = StateReading
-				return
-			}
-		}
-		
-		// Fallback if no processor handled it
-		f.result = append(f.result, token)
-		f.position++
-		f.state = StateReading
-		return
-	}
-
-	if token.Type == tokenizer.TAG {
-		f.state = StateEditing
-		return
-	}
-
-	// Try processors for non-tag tokens
-	for _, proc := range f.processors {
-		if modified, handled := proc.Process(f.result, token); handled {
-			f.result = modified
-			f.position++
-			f.state = StateReading
-			return
-		}
-	}
-
-	// Default: append token
-	f.result = append(f.result, token)
-	f.position++
-	f.state = StateReading
-}
-
-func (f *FSM) handleEditing() {
-	tag := f.tokens[f.position]
-
-	// Try processors for tokens
-	for _, proc := range f.processors {
-		if modified, handled := proc.Process(f.result, tag); handled {
-			f.result = modified
-			f.position++
-			f.state = StateReading
-			return
-		}
-	}
-
-	// Default: skip
-	f.position++
-	f.state = StateReading
 }
