@@ -18,6 +18,7 @@ type FSM struct {
 	result     []tokenizer.Token // Processed tokens output
 	errorMsg   string            // Error message if FSM enters error state
 	processors []Processor       // List of processors to handle different token types
+	inQuote    bool              // Track if currently inside quotes
 }
 
 func New(tokens []tokenizer.Token) *FSM {
@@ -27,6 +28,7 @@ func New(tokens []tokenizer.Token) *FSM {
 		position:   0,
 		result:     make([]tokenizer.Token, 0, len(tokens)),
 		processors: []Processor{},
+		inQuote:    false,
 	}
 }
 
@@ -50,6 +52,8 @@ func (f *FSM) Run() {
 	for f.state != StateDone && f.state != StateError {
 		f.step()
 	}
+	// Post-process: Apply article correction
+	f.result = CorrectArticles(f.result)
 }
 
 func (f *FSM) step() {
@@ -76,6 +80,34 @@ func (f *FSM) handleReading() {
 
 func (f *FSM) handleEvaluating() {
 	token := f.tokens[f.position]
+
+	// Track quote boundaries and handle spacing
+	if token.Type == tokenizer.QUOTE {
+		wasInQuote := f.inQuote
+		f.inQuote = !f.inQuote
+		
+		// Use QuoteSpacingProcessor to handle quote spacing
+		for _, proc := range f.processors {
+			if modified, handled := proc.Process(f.result, token); handled {
+				f.result = modified
+				f.position++
+				
+				// Skip whitespace after opening quote
+				if !wasInQuote && f.position < len(f.tokens) && f.tokens[f.position].Type == tokenizer.WHITESPACE {
+					f.position++
+				}
+				
+				f.state = StateReading
+				return
+			}
+		}
+		
+		// Fallback if no processor handled it
+		f.result = append(f.result, token)
+		f.position++
+		f.state = StateReading
+		return
+	}
 
 	if token.Type == tokenizer.TAG {
 		f.state = StateEditing

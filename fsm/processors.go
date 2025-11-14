@@ -20,9 +20,12 @@ func (p *ConversionProcessor) Process(result []tokenizer.Token, currentToken tok
 		return result, false
 	}
 
-	// Find previous WORD token
+	// Find previous WORD token (stop at quote boundaries)
 	wordIdx := -1
 	for j := len(result) - 1; j >= 0; j-- {
+		if result[j].Type == tokenizer.QUOTE {
+			break
+		}
 		if result[j].Type == tokenizer.WORD {
 			wordIdx = j
 			break
@@ -80,9 +83,12 @@ func (p *CaseProcessor) Process(result []tokenizer.Token, currentToken tokenizer
 		return result, false
 	}
 
-	// Find previous N WORD tokens
+	// Find previous N WORD tokens (stop at quote boundaries)
 	wordIndices := []int{}
 	for j := len(result) - 1; j >= 0 && len(wordIndices) < tag.count; j-- {
+		if result[j].Type == tokenizer.QUOTE {
+			break
+		}
 		if result[j].Type == tokenizer.WORD {
 			wordIndices = append(wordIndices, j)
 		}
@@ -152,6 +158,38 @@ func capitalize(s string) string {
 		runes[i] = unicode.ToLower(runes[i])
 	}
 	return string(runes)
+}
+
+// QuoteSpacingProcessor handles quote spacing cleanup (Rule 3)
+type QuoteSpacingProcessor struct{}
+
+func (p *QuoteSpacingProcessor) Process(result []tokenizer.Token, currentToken tokenizer.Token) ([]tokenizer.Token, bool) {
+	if currentToken.Type != tokenizer.QUOTE {
+		return result, false
+	}
+
+	// Check if this is a closing quote (we have tokens in result)
+	if len(result) == 0 {
+		// Opening quote - just append
+		return append(result, currentToken), true
+	}
+
+	// Check if last token in result is also a quote (opening quote case)
+	if result[len(result)-1].Type == tokenizer.QUOTE {
+		// This is right after opening quote, just append
+		return append(result, currentToken), true
+	}
+
+	// This is a closing quote - remove trailing whitespace before it
+	modified := make([]tokenizer.Token, len(result))
+	copy(modified, result)
+
+	for len(modified) > 0 && modified[len(modified)-1].Type == tokenizer.WHITESPACE {
+		modified = modified[:len(modified)-1]
+	}
+
+	modified = append(modified, currentToken)
+	return modified, true
 }
 
 func startsWithVowelOrH(s string) bool {
