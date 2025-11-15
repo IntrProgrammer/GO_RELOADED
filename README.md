@@ -52,7 +52,7 @@ GO_RELOADED/
 ```
 ## Usefull documents
 
-- 📄 **[Architecture Overview](docs/Analysis/Architecture%20Overview.md)**
+- 📄 **[Architecture Overview](docs/Analysis/Architecture_Type.md)**
 - 📄 **[FSM Design Document](docs/Analysis/FSM%20implementation.md)**
 - 📄 **[Full License Text](COPYING.md)**
 

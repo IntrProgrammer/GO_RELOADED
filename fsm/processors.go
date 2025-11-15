@@ -174,6 +174,7 @@ func (p *PunctuationNormalization) Process(result []tokenizer.Token, currentToke
 		}
 
 		modified = append(modified, currentToken)
+		modified = append(modified, tokenizer.Token{Type: tokenizer.WHITESPACE, Value: " "})
 		return modified, true
 	}
 

@@ -67,4 +67,21 @@ func (f *FSM) handleReading() {
 		f.state = StateDone
 		return
 	}
+
+	currentToken := f.tokens[f.position]
+	f.position++
+
+	handled := false
+	for _, processor := range f.processors {
+		modified, ok := processor.Process(f.result, currentToken)
+		if ok {
+			f.result = modified
+			handled = true
+			break
+		}
+	}
+
+	if !handled {
+		f.result = append(f.result, currentToken)
+	}
 }
