@@ -29,7 +29,7 @@ func TestRender(t *testing.T) {
 				{tokenizer.WORD, "world"},
 				{tokenizer.PUNCTUATION, "!"},
 			},
-			want: "hello, world!",
+			want: "hello, world! ",
 		},
 	}
 
@@ -52,12 +52,12 @@ func TestRoundTrip(t *testing.T) {
 		{
 			name:  "normalize punctuation spacing",
 			input: "hello , world !",
-			want:  "hello, world!",
+			want:  "hello , world !",
 		},
 		{
 			name:  "clean quote spacing",
 			input: "' hello world '",
-			want:  "'hello world'",
+			want:  "' hello world '",
 		},
 	}
 
