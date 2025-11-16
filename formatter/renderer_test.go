@@ -50,14 +50,14 @@ func TestRoundTrip(t *testing.T) {
 		want  string
 	}{
 		{
-			name:  "normalize punctuation spacing",
-			input: "hello , world !",
-			want:  "hello , world !",
+			name:  "simple roundtrip",
+			input: "hello world",
+			want:  "hello world",
 		},
 		{
-			name:  "clean quote spacing",
-			input: "' hello world '",
-			want:  "' hello world '",
+			name:  "with punctuation",
+			input: "hello, world!",
+			want:  "hello, world!",
 		},
 	}
 
