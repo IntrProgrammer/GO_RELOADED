@@ -29,7 +29,7 @@ func TestRender(t *testing.T) {
 				{tokenizer.WORD, "world"},
 				{tokenizer.PUNCTUATION, "!"},
 			},
-			want: "hello, world! ",
+			want: "hello, world!",
 		},
 	}
 
